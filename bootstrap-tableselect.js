@@ -120,7 +120,7 @@
 
     $.fn.tableselect.defaults = {
         multiple: true,
-        activeClass: 'active'
+        activeClass: 'warning' // success, error, warning, info
     };
 
     /* TABLESELECT NO CONFLICT

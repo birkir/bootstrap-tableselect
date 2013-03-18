@@ -57,7 +57,7 @@
                 e = $.Event('select');
             this.$element.trigger(e);
             elm.each(function () {
-                $(this).addClass(this.options.activeClass);
+                $(this).addClass(that.options.activeClass);
                 that.rows.push($(this).index());
             });
         },

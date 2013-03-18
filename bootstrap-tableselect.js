@@ -55,11 +55,11 @@
         select: function (elm) {
             var that = this,
                 e = $.Event('select');
-            this.$element.trigger(e);
             elm.each(function () {
                 $(this).addClass(that.options.activeClass);
                 that.rows.push($(this).index());
             });
+            this.$element.trigger(e, [this.rows]);
         },
 
         listen: function () {

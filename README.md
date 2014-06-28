@@ -15,6 +15,15 @@ Table row selection for twitter bootstrap
  - Mouse drag rows ?
  - More options and features
 
+### Howto
+
+```
+$('table').tableselect({
+   multiple: true,        // Allow multiple or not
+   activeClass: 'warning' // TR class: success, error, warning, info
+});
+```
+
 ### Requirements
 jQuery 1.7.2+
 

@@ -56,8 +56,18 @@
             var that = this,
                 e = $.Event('select');
             elm.each(function () {
-                $(this).addClass(that.options.activeClass);
-                that.rows.push($(this).index());
+                if ($(this).hasClass(that.options.activeClass)) {
+                    $(this).removeClass(that.options.activeClass);
+                    var index = that.rows.push.indexOf($(this).index());
+                    if (index > -1) {
+                        that.rows.splice(index, 1);
+                    }
+                }
+                else
+                {
+                    $(this).addClass(that.options.activeClass);
+                    that.rows.push($(this).index());
+                }
             });
             this.$element.trigger(e, [this.rows]);
         },
@@ -66,17 +76,17 @@
             var that = this;
 
             this.$element.children('tbody').children('tr')
-                .on('click', $.proxy(this.click, this))
-                .on('dblclick', $.proxy(this.dblclick, this));
+                .on('click.tableselect', $.proxy(this.click, this));
+                //.on('dblclick.tableselect', $.proxy(this.dblclick, this));
 
-            $(document).on('keydown keyup', function (e) {
+            $(document).on('keydown.tableselect keyup.tableselect', function (e) {
 
                 if (e.type === 'keydown') {
-                    that.$element.attr('unselectable', 'on').on('selectstart', false);
+                    that.$element.attr('unselectable', 'on').on('selectstart.tableselect', false);
                 }
 
                 if (e.type === 'keyup') {
-                    that.$element.attr('unselectable', 'off').off('selectstart');
+                    that.$element.attr('unselectable', 'off').off('selectstart.tableselect');
                 }
 
                 if (e.keyCode === 16) {
@@ -87,13 +97,20 @@
                     that.keyCtrl = (e.type === 'keydown');
                 }
 
-                if (e.type === 'keydown' && e.keyCode === 65) {
+                if (e.type === 'keydown' && e.ctrlKey && e.keyCode === 65) {
                     that.select(that.$element.children('tbody').children('tr'));
                     e.stopPropagation();
                     e.preventDefault();
                     return false;
                 }
             });
+        },
+
+        destroy: function () {
+            var that = this;
+            this.clear();
+            this.$element.children('tbody').children('tr').off('.tableselect');
+            $(document).off('.tableselect');
         }
     };
 
@@ -108,9 +125,9 @@
                 data = $this.data('tableselect'),
                 options = $.extend({}, $.fn.tableselect.defaults, $this.data(), typeof option === 'object' && option);
 
-            if (!data) {
-                $this.data('tableselect', (data = new TableSelect(this, options)));
-            }
+            if (data) { data['destroy'](); }
+
+            $this.data('tableselect', (data = new TableSelect(this, options)));
 
             if (typeof option === 'string') {
                 data[option]();

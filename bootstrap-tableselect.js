@@ -57,10 +57,12 @@
                 e = $.Event('select');
             elm.each(function () {
                 if ($(this).hasClass(that.options.activeClass)) {
-                    $(this).removeClass(that.options.activeClass);
-                    var index = that.rows.indexOf($(this).index());
-                    if (index > -1) {
-                        that.rows.splice(index, 1);
+                    if (that.$element.children('tbody').children('tr').length != elm.length) {
+                        $(this).removeClass(that.options.activeClass);
+                        var index = that.rows.indexOf($(this).index());
+                        if (index > -1) {
+                            that.rows.splice(index, 1);
+                        }
                     }
                 }
                 else

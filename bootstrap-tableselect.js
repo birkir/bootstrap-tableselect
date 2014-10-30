@@ -58,7 +58,7 @@
             elm.each(function () {
                 if ($(this).hasClass(that.options.activeClass)) {
                     $(this).removeClass(that.options.activeClass);
-                    var index = that.rows.push.indexOf($(this).index());
+                    var index = that.rows.indexOf($(this).index());
                     if (index > -1) {
                         that.rows.splice(index, 1);
                     }

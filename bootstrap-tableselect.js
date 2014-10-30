@@ -57,7 +57,7 @@
                 e = $.Event('select');
             elm.each(function () {
                 if ($(this).hasClass(that.options.activeClass)) {
-                    if (that.$element.children('tbody').children('tr').length != elm.length) {
+                    if (!that.keyShift && that.$element.children('tbody').children('tr').length != elm.length) {
                         $(this).removeClass(that.options.activeClass);
                         var index = that.rows.indexOf($(this).index());
                         if (index > -1) {
@@ -71,6 +71,11 @@
                     that.rows.push($(this).index());
                 }
             });
+
+            if (that.options.onSelectionChanged !== undefined) {
+                that.options.onSelectionChanged(elm, that.rows.length);
+            }
+
             this.$element.trigger(e, [this.rows]);
         },
 
@@ -79,7 +84,6 @@
 
             this.$element.children('tbody').children('tr')
                 .on('click.tableselect', $.proxy(this.click, this));
-                //.on('dblclick.tableselect', $.proxy(this.dblclick, this));
 
             $(document).on('keydown.tableselect keyup.tableselect', function (e) {
 

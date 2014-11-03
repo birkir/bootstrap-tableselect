@@ -50,6 +50,10 @@
         clear: function () {
             this.$element.children('tbody').children('tr').removeClass(this.options.activeClass);
             this.rows = [];
+            
+            if (this.options.onSelectionChanged !== undefined) {
+                this.options.onSelectionChanged(null, 0);
+            }
         },
 
         select: function (elm) {

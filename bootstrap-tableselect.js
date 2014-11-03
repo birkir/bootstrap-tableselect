@@ -50,7 +50,7 @@
         clear: function () {
             this.$element.children('tbody').children('tr').removeClass(this.options.activeClass);
             this.rows = [];
-            
+
             if (this.options.onSelectionChanged !== undefined) {
                 this.options.onSelectionChanged(null, 0);
             }
@@ -86,7 +86,7 @@
         listen: function () {
             var that = this;
 
-            this.$element.children('tbody').children('tr')
+            this.$element.children('tbody').children('tr:not(.' + that.options.unSelectableClass + ')')
                 .on('click.tableselect', $.proxy(this.click, this));
 
             $(document).on('keydown.tableselect keyup.tableselect', function (e) {
@@ -147,7 +147,8 @@
 
     $.fn.tableselect.defaults = {
         multiple: true,
-        activeClass: 'warning' // success, error, warning, info
+        activeClass: 'warning', // success, error, warning, info
+        unSelectableClass: 'unSelectable' //Do not select row with this class
     };
 
     /* TABLESELECT NO CONFLICT
